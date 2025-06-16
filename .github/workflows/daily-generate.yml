@@ -61,6 +61,9 @@ jobs:
       #     echo "Python3 version: $(python3 --version)" # python3 版本
       #   shell: bash
 
+      - name: 等待10秒以便文件上傳完成或服務穩定
+        run: sleep 60 # 這裡增加了10秒的延遲
+
       # # 新增的調試步驟
       # - name: Debug Image Generation Env
       #   run: |
