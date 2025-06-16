@@ -40,6 +40,14 @@ jobs:
           EOF
         shell: bash # 确保使用 bash shell
 
+      - name: Debug serviceAccount.json content # 新增的調試步驟
+        run: |
+          echo "--- Content of serviceAccount.json ---"
+          cat serviceAccount.json
+          echo "--- End of serviceAccount.json content ---"
+          ls -l serviceAccount.json # 也檢查文件大小和權限
+        shell: bash
+
       - name: Generate Prompt and Upload
         run: |
           python generate_prompt.py
