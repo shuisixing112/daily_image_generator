@@ -1,0 +1,25 @@
+# 忽略 Python 編譯產物
+__pycache__/
+*.pyc
+
+# 忽略輸出圖片資料夾
+outputs/
+prompts/
+generated_images/
+
+# 忽略敏感檔案
+.env
+*.cookie
+token.txt
+
+# 忽略圖片
+*.jpg
+*.png
+*.jpeg
+
+# 忽略 Firebase 管理金鑰
+daily-image-ai-firebase-adminsdk-fbsvc-a7670b11a1.json
+daily-image-ai-firebase-adminsdk-fbsvc-a8a56a6735.json
+
+
+firebase-debug.log 
