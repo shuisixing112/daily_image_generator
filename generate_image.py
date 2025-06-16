@@ -44,8 +44,6 @@ def upload_to_imgbb(image_path, api_key):
 # 載入 .env 檔案中的環境變數
 load_dotenv()
 BING_U = os.getenv("BING_U")
-if not BING_U:
-    raise ValueError("環境變數 BING_U 未設置！請在 GitHub Secrets 或 .env 中設置。")
 IMGBB_API_KEY = os.getenv("IMGBB_API_KEY")
 
 # 設定文字檔與圖片輸出路徑
@@ -92,19 +90,16 @@ command = [
     "python", "-m", "BingImageCreator",    
     "-U", BING_U,  # 若你用的是 auth cookie 改用這裡
     "--prompt", prompt,
-    
-    #### 檢查用
-    # 這是正確的 f-string 語法，請以此為準修改所有調試打印語句
-    print(f"DEBUG: BING_U_VALUE: {BING_U}") # 檢查 BING_U 的實際值
-    print(f"DEBUG: Prompt: {prompt}")
-    print(f"DEBUG: OUTPUT_DIR: {OUTPUT_DIR}")
-    print(f"DEBUG: Final command list: {command}") # 打印整個列表
-    print(f"DEBUG: Type of command list: {type(command)}")
-    print(f"DEBUG: Check for None in command list: {'None' in command}") # 檢查列表中是否有 None
-
     "--output-dir", OUTPUT_DIR,
     "--download-count", "4"
 ]
+
+print(f"DEBUG: BING_U_VALUE: {BING_U}") # 注意這裡使用的是變數 BING_U
+print(f"DEBUG: Prompt: {prompt}")
+print(f"DEBUG: OUTPUT_DIR: {OUTPUT_DIR}")
+print(f"DEBUG: Final command list: {command}")
+print(f"DEBUG: Type of command list: {type(command)}")
+print(f"DEBUG: Check for None in command list: {'None' in command}")
 
 subprocess.run(command, check=True)
 
