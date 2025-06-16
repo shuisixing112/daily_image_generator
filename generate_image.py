@@ -92,7 +92,8 @@ command = [
     "--prompt", prompt,
     
     #### 檢查用
-    print(f"DEBUG: BING_U_VALUE: {BING_U_VALUE}") # 檢查 BING_U 的實際值
+    # 這是正確的 f-string 語法，請以此為準修改所有調試打印語句
+    print(f"DEBUG: BING_U_VALUE: {BING_U}") # 檢查 BING_U 的實際值
     print(f"DEBUG: Prompt: {prompt}")
     print(f"DEBUG: OUTPUT_DIR: {OUTPUT_DIR}")
     print(f"DEBUG: Final command list: {command}") # 打印整個列表
