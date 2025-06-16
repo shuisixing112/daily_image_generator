@@ -18,6 +18,7 @@ jobs:
       FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
       GOOGLE_APPLICATION_CREDENTIALS: serviceAccount.json  # 這樣每個 step 都能讀取
       BING_U: ${{ secrets.BING_U }}
+      IMGBB_API_KEY: ${{ secrets.IMGBB_API_KEY }}
 
 
     steps:
