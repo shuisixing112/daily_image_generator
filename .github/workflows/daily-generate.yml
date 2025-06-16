@@ -56,6 +56,17 @@ jobs:
           echo "⏳ Waiting 3 minutes before generating image..."
           sleep 180
 
+      # 新增的調試步驟
+      - name: Debug Image Generation Env
+        run: |
+          echo "--- Environment variables for Image Generation ---"
+          echo "OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}" # 檢查這個是否為 None
+          echo "GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}" # 檢查這個是否為 None
+          echo "FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}" # 檢查這個是否為 None
+          # 添加 generate_image.py 中用到的任何其他環境變數
+          echo "--- End Env Debug ---"
+        shell: bash
+
       - name: Generate Image
         run: |
           python generate_image.py
