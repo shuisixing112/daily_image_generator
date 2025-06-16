@@ -216,7 +216,7 @@ for i, old_name in enumerate(reversed(files), start=1):
     # ✅ 上傳記憶體圖片到 imgBB
     upload_to_imgbb_from_memory(image_bytes, filename_without_ext, IMGBB_API_KEY)
 
-    print("✅ 圖片已上傳成功！imgBB!")
+print("動作完成")
 
 
 # print("✅ 圖片已重新命名並儲存完成！")
