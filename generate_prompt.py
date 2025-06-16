@@ -7,10 +7,13 @@ import json
 import re
 import base64
 from datetime import datetime
+import pytz
 
 from google.cloud import storage
 import firebase_admin
 from firebase_admin import credentials, storage
+
+tz = pytz.timezone("Asia/Taipei")
 
 # 載入 .env 檔案中的環境變數
 load_dotenv()
@@ -89,7 +92,7 @@ if response.status_code == 200:
     action = action_match.group(1).replace(" ", "_") if action_match else "unknown"
 
     # 檔名
-    now = datetime.now().strftime("%Y-%m-%d_%H%M-%S")
+    now = datetime.now(tz).strftime("%Y-%m-%d_%H%M-%S")
     filename = f"{now}_{animal}_{action}.txt"
 
     if animal == "unknown" or action == "unknown":

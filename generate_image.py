@@ -8,6 +8,9 @@ import subprocess
 import requests
 from datetime import datetime
 import base64
+import pytz
+
+tz = pytz.timezone("Asia/Taipei")
 
 def upload_to_imgbb(image_path, api_key):
     """Uploads an image to imgBB and returns the URL of the uploaded image.
@@ -88,6 +91,15 @@ command = [
     #"python", "-m", "BingImageCreator",     # windos 環境使用
     "-U",BING_U,  # 若你用的是 auth cookie 改用這裡
     "--prompt", prompt,
+    
+    #### 檢查用
+    print(f"DEBUG: BING_U_VALUE: {BING_U_VALUE}") # 檢查 BING_U 的實際值
+    print(f"DEBUG: Prompt: {prompt}")
+    print(f"DEBUG: OUTPUT_DIR: {OUTPUT_DIR}")
+    print(f"DEBUG: Final command list: {command}") # 打印整個列表
+    print(f"DEBUG: Type of command list: {type(command)}")
+    print(f"DEBUG: Check for None in command list: {'None' in command}") # 檢查列表中是否有 None
+
     "--output-dir", OUTPUT_DIR,
     "--download-count", "4"
 ]
@@ -103,7 +115,7 @@ files = sorted(
     reverse=True
 )[:4]  # 最新的4張圖
 
-now = datetime.now().strftime("%Y-%m-%d_%H%M")
+now = datetime.now(tz).strftime("%Y-%m-%d_%H%M")
 for i, old_name in enumerate(reversed(files), start=1):
     new_name = f"{now}_{animal}_{action}_{location}_{i}.jpeg"
     os.rename(

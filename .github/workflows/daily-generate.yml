@@ -51,11 +51,6 @@ jobs:
         run: |
           python generate_prompt.py
 
-      - name: Wait 3 minutes
-        run: |
-          echo "⏳ Waiting 3 minutes before generating image..."
-          sleep 180
-
       - name: Check Python Version # 檢查 Python 版本
         run: |
           echo "Which python: $(which python)" # 哪個 python
@@ -74,6 +69,15 @@ jobs:
           # 添加 generate_image.py 中用到的任何其他環境變數
           echo "--- End Env Debug ---"
         shell: bash
+
+        # 新增調試步驟：檢查 BingImageCreator 模組
+      - name: Check BingImageCreator Module
+        run: |
+          python -m pip install -r requirements.txt # 再次確保所有依賴都安裝了
+          python -m BingImageCreator --help # 嘗試運行它的幫助命令
+          echo "BingImageCreator check successful."
+        shell: bash
+        # continue-on-error: true # 如果您想即使這個步驟失敗也繼續，可以加上這行
 
       - name: Generate Image
         run: |
