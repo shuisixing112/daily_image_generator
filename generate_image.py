@@ -87,8 +87,7 @@ location = match_location.group(1).replace(" ", "_") if match_location else "unk
 
 # 呼叫 BingImageCreator 指令
 command = [
-    "python3", "-m", "BingImageCreator",    # ubuntu 環境使用
-    #"python", "-m", "BingImageCreator",     # windos 環境使用
+    "python", "-m", "BingImageCreator",    
     "-U",BING_U,  # 若你用的是 auth cookie 改用這裡
     "--prompt", prompt,
     
