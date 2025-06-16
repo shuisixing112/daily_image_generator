@@ -1,0 +1,50 @@
+# 工作流程檔案
+
+name: Daily Prompt and Image Generator
+
+on:
+  schedule:
+    - cron: '0 1 * * *'  # 每天台灣早上 9:00（UTC+8 → UTC+1）
+    - cron: '0 1 * * *'  # 每天台灣早上 9:00（UTC+8 → UTC+1）
+  workflow_dispatch:      # 可手動觸發
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    env:  # 全域環境變數
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+      FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
+      GOOGLE_APPLICATION_CREDENTIALS: serviceAccount.json  # 這樣每個 step 都能讀取
+
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Create serviceAccount.json file
+        run: |
+          echo "$GOOGLE_APPLICATION_CREDENTIALS_JSON" > serviceAccount.json
+
+      - name: Generate Prompt and Upload
+        run: |
+          python generate_prompt.py
+
+      - name: Wait 3 minutes
+        run: |
+          echo "⏳ Waiting 3 minutes before generating image..."
+          sleep 180
+
+      - name: Generate Image
+        run: |
+          python generate_image.py

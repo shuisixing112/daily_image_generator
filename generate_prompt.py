@@ -14,7 +14,7 @@ from firebase_admin import credentials, storage
 
 # 載入 .env 檔案中的環境變數
 load_dotenv()
-API_KEY = os.getenv("OPENROUTER_API_KEY")
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 GOOGLE_API_KEY = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = GOOGLE_API_KEY
 Bucket_name = os.getenv("FIREBASE_STORAGE_BUCKET")
@@ -62,7 +62,7 @@ Children's picture book style, calm and emotionally soothing atmosphere
 
 # === 設定模型與 API 請求參數 ===
 headers = {
-    "Authorization": f"Bearer {API_KEY}",
+    "Authorization": f"Bearer {OPENROUTER_API_KEY}",
     "Content-Type": "application/json"
 }
 
