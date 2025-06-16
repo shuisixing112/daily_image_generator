@@ -40,7 +40,7 @@ def upload_to_imgbb(image_path, api_key):
 
 # 載入 .env 檔案中的環境變數
 load_dotenv()
-API_KEY = os.getenv("BING_U")
+BING_U = os.getenv("BING_U")
 IMGBB_API_KEY = os.getenv("IMGBB_API_KEY")
 
 # 設定文字檔與圖片輸出路徑
@@ -84,8 +84,9 @@ location = match_location.group(1).replace(" ", "_") if match_location else "unk
 
 # 呼叫 BingImageCreator 指令
 command = [
-    "python", "-m", "BingImageCreator",
-    "-U",API_KEY,  # 若你用的是 auth cookie 改用這裡
+    "python3", "-m", "BingImageCreator",    # ubuntu 環境使用
+    #"python", "-m", "BingImageCreator",     # windos 環境使用
+    "-U",BING_U,  # 若你用的是 auth cookie 改用這裡
     "--prompt", prompt,
     "--output-dir", OUTPUT_DIR,
     "--download-count", "4"

@@ -56,6 +56,14 @@ jobs:
           echo "⏳ Waiting 3 minutes before generating image..."
           sleep 180
 
+      - name: Check Python Version # 檢查 Python 版本
+        run: |
+          echo "Which python: $(which python)" # 哪個 python
+          echo "Python version: $(python --version)" # python 版本
+          echo "Which python3: $(which python3)" # 哪個 python3
+          echo "Python3 version: $(python3 --version)" # python3 版本
+        shell: bash
+
       # 新增的調試步驟
       - name: Debug Image Generation Env
         run: |
