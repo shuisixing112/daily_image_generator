@@ -12,32 +12,52 @@ import pytz
 
 tz = pytz.timezone("Asia/Taipei")
 
-def upload_to_imgbb(image_path, api_key):
-    """Uploads an image to imgBB and returns the URL of the uploaded image.
+# def upload_to_imgbb(image_path, api_key):
+#     """Uploads an image to imgBB and returns the URL of the uploaded image.
 
-    Parameters:
-    image_path (str): The local path to the image file to upload.
-    api_key (str): The imgBB API key to use for the upload.
+#     Parameters:
+#     image_path (str): The local path to the image file to upload.
+#     api_key (str): The imgBB API key to use for the upload.
 
-    Returns:
-    str: The URL of the uploaded image if successful, or None if upload failed.
-    """
-    with open(image_path, "rb") as f:
-        encoded_image = base64.b64encode(f.read())
+#     Returns:
+#     str: The URL of the uploaded image if successful, or None if upload failed.
+#     """
+#     with open(image_path, "rb") as f:
+#         encoded_image = base64.b64encode(f.read())
+#     url = "https://api.imgbb.com/1/upload"
+#     payload = {
+#         "key": api_key,
+#         "image": encoded_image,
+#         "name": filename_without_ext,  # 🆕 新增圖片名稱
+#     }
+#     response = requests.post(url, data=payload)
+#     if response.status_code == 200:
+#         data = response.json()
+#         image_url = data["data"]["url"]
+#         print("✅ 圖片已上傳成功！imgBB 連結：", image_url)
+#         return image_url
+#     else:
+#         print("❌ 上傳失敗：", response.status_code, response.text)
+#         return None
+
+def upload_to_imgbb_from_memory(image_bytes, image_name, api_key):
+    """Uploads an image (in-memory bytes) to imgBB and returns the URL."""
+    encoded_image = base64.b64encode(image_bytes).decode("utf-8")
     url = "https://api.imgbb.com/1/upload"
     payload = {
         "key": api_key,
         "image": encoded_image,
-        "name": filename_without_ext,  # 🆕 新增圖片名稱
+        "name": filename_without_ext,
     }
     response = requests.post(url, data=payload)
+
     if response.status_code == 200:
         data = response.json()
         image_url = data["data"]["url"]
-        print("✅ 圖片已上傳成功！imgBB 連結：", image_url)
+        print(f"✅ 圖片已上傳成功！imgBB 連結: {image_url}")
         return image_url
     else:
-        print("❌ 上傳失敗：", response.status_code, response.text)
+        print(f"❌ 上傳失敗：", response.status_code, response.text)
         return None
 
 
@@ -113,22 +133,33 @@ files = sorted(
 )[:4]  # 最新的4張圖
 
 now = datetime.now(tz).strftime("%Y-%m-%d_%H%M")
+
 for i, old_name in enumerate(reversed(files), start=1):
     new_name = f"{now}_{animal}_{action}_{location}_{i}.jpeg"
-    os.rename(
-        os.path.join(OUTPUT_DIR, old_name),
-        os.path.join(OUTPUT_DIR, new_name)
-    )
-    # 儲存圖片後
-    image_path = os.path.join(OUTPUT_DIR, new_name)
+    # os.rename(
+    #     os.path.join(OUTPUT_DIR, old_name),
+    #     os.path.join(OUTPUT_DIR, new_name)
+    # )
+    file_path = os.path.join(OUTPUT_DIR, old_name)
 
-    filename_without_ext = os.path.splitext(os.path.basename(image_path))[0]
+    # 儲存在本地後改名
+    # image_path = os.path.join(OUTPUT_DIR, new_name)
+    # filename_without_ext = os.path.splitext(os.path.basename(image_path))[0]
+
+    # 🔄 讀取圖片 bytes（不儲存中繼檔）
+    with open(file_path, "rb") as f:
+        image_bytes = f.read()
+
+    filename_without_ext = os.path.splitext(new_name)[0]
     
-    # 自動上傳到 imgBB
-    imgbb_api_key = os.getenv("IMGBB_API_KEY")  # 建議從 .env 中讀取
-    upload_to_imgbb(image_path, imgbb_api_key)
+    # 從本地自動上傳到 imgBB
+    # imgbb_api_key = os.getenv("IMGBB_API_KEY")  # 建議從 .env 中讀取
+    # upload_to_imgbb(image_path, imgbb_api_key)
+
+    # ✅ 上傳記憶體圖片到 imgBB
+    upload_to_imgbb_from_memory(image_bytes, filename_without_ext, IMGBB_API_KEY)
 
     print("✅ 圖片已上傳成功！imgBB!")
 
 
-print("✅ 圖片已重新命名並儲存完成！")
+# print("✅ 圖片已重新命名並儲存完成！")
