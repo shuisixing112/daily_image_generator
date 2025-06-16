@@ -30,13 +30,27 @@ firebase_admin.initialize_app(cred, {
     'storageBucket': Bucket_name  # 替換為你的Firebase專案ID
 })
 
+
 # === 上傳文字檔到 Firebase Storage ===
-def upload_txt_to_firebase(filepath, remote_path, Bucket_name):
-    # client = storage.Client()
-    bucket =storage.bucket(Bucket_name)
+def upload_txt_to_firebase(filepath, Bucket_name):
+
+    # 取得目前年月
+    now = datetime.now()
+    year_month = now.strftime("%Y-%m")
+
+    # 取得檔名（不包含路徑）
+    filename = os.path.basename(filepath)
+
+    # 組合成 remote path：prompts/YYYY-MM/檔案名稱
+    remote_path = f"prompts/{year_month}/{filename}"
+
+    # 上傳至 Firebase
+    bucket = storage.bucket(Bucket_name)
     blob = bucket.blob(remote_path)
     blob.upload_from_filename(filepath)
-    print(f"☁️ 已上傳 {filepath} 到 Firebase Storage: {remote_path}")
+
+    print(f"✅ 已上傳 {filepath} 到 Firebase Storage: {remote_path}")
+    
 
 # === 要送給 LLM 的欄位模板 ===
 prompt_template = """
@@ -107,7 +121,7 @@ if response.status_code == 200:
     remote_path = f"prompts/{filename}"
     # print("憑證路徑：", os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
     # print("✅ 使用的 bucket：", Bucket_name)
-    upload_txt_to_firebase(filepath, remote_path, Bucket_name)
+    upload_txt_to_firebase(filepath, Bucket_name)
 
 else:
     print("❌ 發生錯誤：", response.status_code)
