@@ -17,7 +17,7 @@ jobs:
       GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
       FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
       GOOGLE_APPLICATION_CREDENTIALS: serviceAccount.json  # 這樣每個 step 都能讀取
-      BING_U: ${{ secrets.BING_U }}
+      BING_U: ${{ secrets. }}
 
 
     steps:
@@ -40,46 +40,45 @@ jobs:
           EOF
         shell: bash # 确保使用 bash shell
 
-      - name: Debug serviceAccount.json content # 新增的調試步驟
-        run: |
-          echo "--- Content of serviceAccount.json ---"
-          cat serviceAccount.json
-          echo "--- End of serviceAccount.json content ---"
-          ls -l serviceAccount.json # 也檢查文件大小和權限
-        shell: bash
+      # - name: Debug serviceAccount.json content # 新增的調試步驟
+      #   run: |
+      #     echo "--- Content of serviceAccount.json ---"
+      #     cat serviceAccount.json
+      #     echo "--- End of serviceAccount.json content ---"
+      #     ls -l serviceAccount.json # 也檢查文件大小和權限
+      #   shell: bash
 
       - name: Generate Prompt and Upload
         run: |
           python generate_prompt.py
 
-      - name: Check Python Version # 檢查 Python 版本
-        run: |
-          echo "Which python: $(which python)" # 哪個 python
-          echo "Python version: $(python --version)" # python 版本
-          echo "Which python3: $(which python3)" # 哪個 python3
-          echo "Python3 version: $(python3 --version)" # python3 版本
-        shell: bash
+      # - name: Check Python Version # 檢查 Python 版本
+      #   run: |
+      #     echo "Which python: $(which python)" # 哪個 python
+      #     echo "Python version: $(python --version)" # python 版本
+      #     echo "Which python3: $(which python3)" # 哪個 python3
+      #     echo "Python3 version: $(python3 --version)" # python3 版本
+      #   shell: bash
 
-      # 新增的調試步驟
-      - name: Debug Image Generation Env
-        run: |
-          echo "--- Environment variables for Image Generation ---"
-          echo "OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}" # 檢查這個是否為 None
-          echo "GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}" # 檢查這個是否為 None
-          echo "FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}" # 檢查這個是否為 None
-          # 添加 generate_image.py 中用到的任何其他環境變數
-          echo "--- End Env Debug ---"
-        shell: bash
+      # # 新增的調試步驟
+      # - name: Debug Image Generation Env
+      #   run: |
+      #     echo "--- Environment variables for Image Generation ---"
+      #     echo "OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}" # 檢查這個是否為 None
+      #     echo "GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}" # 檢查這個是否為 None
+      #     echo "FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}" # 檢查這個是否為 None
+      #     # 添加 generate_image.py 中用到的任何其他環境變數
+      #     echo "--- End Env Debug ---"
+      #   shell: bash
 
-        # 新增調試步驟：檢查 BingImageCreator 模組
-      - name: Check BingImageCreator Module
-        run: |
-          python -m pip install -r requirements.txt # 再次確保所有依賴都安裝了
-          python -m BingImageCreator --help # 嘗試運行它的幫助命令
-          echo "BingImageCreator check successful."
-        shell: bash
-        # continue-on-error: true # 如果您想即使這個步驟失敗也繼續，可以加上這行
-
+      #   # 新增調試步驟：檢查 BingImageCreator 模組
+      # - name: Check BingImageCreator Module
+      #   run: |
+      #     python -m pip install -r requirements.txt # 再次確保所有依賴都安裝了
+      #     python -m BingImageCreator --help # 嘗試運行它的幫助命令
+      #     echo "BingImageCreator check successful."
+      #   shell: bash
+       
       - name: Generate Image
         run: |
           python generate_image.py

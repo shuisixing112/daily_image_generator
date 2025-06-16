@@ -94,12 +94,12 @@ command = [
     "--download-count", "4"
 ]
 
-print(f"DEBUG: BING_U_VALUE: {BING_U}") # 注意這裡使用的是變數 BING_U
-print(f"DEBUG: Prompt: {prompt}")
-print(f"DEBUG: OUTPUT_DIR: {OUTPUT_DIR}")
-print(f"DEBUG: Final command list: {command}")
-print(f"DEBUG: Type of command list: {type(command)}")
-print(f"DEBUG: Check for None in command list: {'None' in command}")
+# print(f"DEBUG: BING_U_VALUE: {BING_U}") # 注意這裡使用的是變數 BING_U
+# print(f"DEBUG: Prompt: {prompt}")
+# print(f"DEBUG: OUTPUT_DIR: {OUTPUT_DIR}")
+# print(f"DEBUG: Final command list: {command}")
+# print(f"DEBUG: Type of command list: {type(command)}")
+# print(f"DEBUG: Check for None in command list: {'None' in command}")
 
 subprocess.run(command, check=True)
 

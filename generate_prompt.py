@@ -25,10 +25,6 @@ print(" os.getenv：\n", os.getenv("GOOGLE_APPLICATION_CREDENTIALS"))
 print(" os.getenv：\n", os.getenv("FIREBASE_STORAGE_BUCKET"))
 
 # 載入 Firebase Admin SDK
-# cred = credentials.ApplicationDefault()
-# initialize_app(cred,{
-#     'storageBucket': os.getenv("daily-image-ai.appspot.com")
-# })
 cred = credentials.Certificate(os.getenv("GOOGLE_APPLICATION_CREDENTIALS"))
 firebase_admin.initialize_app(cred, {
     'storageBucket': Bucket_name  # 替換為你的Firebase專案ID
@@ -109,10 +105,9 @@ if response.status_code == 200:
     
     # 上傳到 Firebase Storage
     remote_path = f"prompts/{filename}"
-    print("憑證路徑：", os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
-    print("✅ 使用的 bucket：", Bucket_name)
+    # print("憑證路徑：", os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
+    # print("✅ 使用的 bucket：", Bucket_name)
     upload_txt_to_firebase(filepath, remote_path, Bucket_name)
-
 
 else:
     print("❌ 發生錯誤：", response.status_code)
