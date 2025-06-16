@@ -34,7 +34,11 @@ jobs:
 
       - name: Create serviceAccount.json file
         run: |
-          echo "$GOOGLE_APPLICATION_CREDENTIALS_JSON" > serviceAccount.json
+          run: |
+          cat <<EOF > serviceAccount.json
+          ${{secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON}}
+          EOF
+        shell: bash # 确保使用 bash shell
 
       - name: Generate Prompt and Upload
         run: |
