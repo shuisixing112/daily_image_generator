@@ -34,7 +34,6 @@ jobs:
 
       - name: Create serviceAccount.json file
         run: |
-          run: |
           cat <<EOF > serviceAccount.json
           ${{secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON}}
           EOF
