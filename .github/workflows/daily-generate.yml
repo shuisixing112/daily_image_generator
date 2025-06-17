@@ -61,8 +61,8 @@ jobs:
       #     echo "Python3 version: $(python3 --version)" # python3 版本
       #   shell: bash
 
-      - name: 等待8秒以便文件上傳完成或服務穩定
-        run: sleep 8 # 這裡增加了8秒的延遲
+      - name: 等待5秒以便文件上傳完成或服務穩定
+        run: sleep 5 # 這裡增加了5秒的延遲
 
       # # 新增的調試步驟
       # - name: Debug Image Generation Env
