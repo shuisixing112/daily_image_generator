@@ -4,8 +4,8 @@ name: Daily Prompt and Image Generator
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # 每天台灣早上 8:00（UTC+8 → UTC+1）
-    - cron: '0 7 * * *'  # 每天台灣下午 3:00（UTC+8 → UTC+1）
+    - cron: '0 22 * * *'  # 每天台灣早上 6:00（UTC+8 → UTC+1）
+    - cron: '0 5 * * *'  # 每天台灣下午 1:00（UTC+8 → UTC+1）
   workflow_dispatch:      # 可手動觸發
 
 jobs:
@@ -61,8 +61,8 @@ jobs:
       #     echo "Python3 version: $(python3 --version)" # python3 版本
       #   shell: bash
 
-      - name: 等待10秒以便文件上傳完成或服務穩定
-        run: sleep 60 # 這裡增加了10秒的延遲
+      - name: 等待8秒以便文件上傳完成或服務穩定
+        run: sleep 8 # 這裡增加了8秒的延遲
 
       # # 新增的調試步驟
       # - name: Debug Image Generation Env
